@@ -1,0 +1,45 @@
+server:
+ port: 8084
+
+
+spring:
+ application:
+  name: CloudGateway-Service
+ config:
+  import: configserver:http://localhost:8083
+ cloud:
+  gateway:
+       routes:
+        - id: Order-Service
+          uri: lb://Order-Service
+          predicates:
+             - Path=/order/**
+          filters:
+              - name: CircuitBreaker
+                args:
+                 name: Order-Service
+                 fallbackuri: forward:/orderServiceFallBack
+                 
+                 
+        - id: Product-Service
+          uri: lb://Product-Service
+          predicates:
+             - Path=/product/**
+          filters:
+              - name: CircuitBreaker
+                args:
+                 name: Product-Service
+                 fallbackuri: forward:/productServiceFallBack
+                 
+            
+                 
+            
+
+  
+  
+#eureka:
+#   instance:
+#    hostname: localhost  
+#   client:
+#    register-with-eureka: true
+#    fetch-registry: true     

@@ -1,0 +1,15 @@
+server:
+ port:
+    8081
+spring:
+ application:
+  name: Product-Service
+ config:
+  import: configserver:http://localhost:8083
+
+#eureka:
+#   instance:
+#    hostname: localhost  
+#   client:
+#    register-with-eureka: true
+#    fetch-registry: true   
